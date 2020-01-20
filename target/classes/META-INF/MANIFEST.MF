@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: raabbitmq-sender-part
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: moinuddin
+Implementation-Vendor-Id: com.example
+Build-Jdk: 1.8.0_232
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/raabbitmq-sender-part
+Created-By: Maven Integration for Eclipse
+

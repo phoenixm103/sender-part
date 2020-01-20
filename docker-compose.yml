@@ -1,0 +1,51 @@
+version: '3.3'
+
+services:
+  
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    restart: always
+    networks:
+      - network
+      
+   
+   
+  # App backend service
+  publisher:
+    # Configuration for building the docker image for the backend service
+    image: spring-boot-jpa-image
+    build:
+      context: ./ # Use an image built from the specified dockerfile in the `polling-app-server` directory.
+      dockerfile: Dockerfile
+    ports:
+      - "9006:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    depends_on: 
+      - rabbitmq # This service depends on mysql. Start that first.    
+    #networks: # Networks to join (Services on the same network can communicate with each other using their name)
+     # - publisher
+      #- rabbitmq
+    environment:
+      - "SPRING_RABBITMQ_HOST=rabbitmq"
+    networks:
+      - network
+   
+   
+  consumer:
+    image: "consumer:latest"
+    ports:
+      - "9004:8081"
+    restart: always
+    depends_on: 
+      - rabbitmq
+    networks:
+      - network
+    environment:
+      - "SPRING_RABBITMQ_HOST=rabbitmq"
+
+networks:
+  network:
+      
